@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="roskuski_lamanna.drivingautorespond" >
 
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +24,17 @@
             android:name=".SMSReceiver"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BROADCAST_SMS">
+            android:permission="android.permission.BROADCAST_SMS" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".CallReciver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
     </application>
