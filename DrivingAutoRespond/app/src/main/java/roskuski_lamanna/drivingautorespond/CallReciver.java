@@ -14,7 +14,7 @@ public class CallReciver extends BroadcastReceiver {
         if (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_RINGING)){
             String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             System.out.println(number);
-            //TODO: Send this somewhere for processing
+            MainService.sendText(number, context);
         }
     }
 }

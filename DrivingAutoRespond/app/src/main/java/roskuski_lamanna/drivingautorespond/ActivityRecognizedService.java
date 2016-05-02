@@ -52,49 +52,15 @@ public class ActivityRecognizedService extends IntentService{
                     Log.e( "ActivityRecogition", "In Vehicle: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 75 ) {
 
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                        builder.setContentText("Are you in a Vehicle");
-                        builder.setSmallIcon(R.mipmap.ic_launcher);
-                        builder.setContentTitle(getString(R.string.app_name));
-                        NotificationManagerCompat.from(this).notify(0, builder.build());
-                    }
-                    break;
-                }
+                        Database.getInstance().updateVal(this, "activity", 1);
 
-                case DetectedActivity.RUNNING: {
-                    Log.e( "ActivityRecogition", "Running: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 75 ) {
-
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                        builder.setContentText("Are you running");
-                        builder.setSmallIcon(R.mipmap.ic_launcher);
-                        builder.setContentTitle(getString(R.string.app_name));
-                        NotificationManagerCompat.from(this).notify(0, builder.build());
-                    }
-                    break;
-                }
-                case DetectedActivity.STILL: {
-                    Log.e("ActivityRecogition", "Still: " + activity.getConfidence());
-                    if( activity.getConfidence() >= 75 ) {
-
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                        builder.setContentText("Stop Sitting Still");
-                        builder.setSmallIcon(R.mipmap.ic_launcher);
-                        builder.setContentTitle(getString(R.string.app_name));
-                        NotificationManagerCompat.from(this).notify(0, builder.build());
-                    }
-                    break;
-                }
-
-                case DetectedActivity.WALKING: {
-                    Log.e( "ActivityRecogition", "Walking: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 75 ) {
-
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                        builder.setContentText("Are you walking");
-                        builder.setSmallIcon(R.mipmap.ic_launcher);
-                        builder.setContentTitle(getString(R.string.app_name));
-                        NotificationManagerCompat.from(this).notify(0, builder.build());
+                        //NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                        //builder.setContentText("Are you in a Vehicle");
+                        //builder.setSmallIcon(R.mipmap.ic_launcher);
+                        //builder.setContentTitle(getString(R.string.app_name));
+                        //NotificationManagerCompat.from(this).notify(0, builder.build());
+                    } else {
+                        Database.getInstance().updateVal(this, "activity", 0);
                     }
                     break;
                 }

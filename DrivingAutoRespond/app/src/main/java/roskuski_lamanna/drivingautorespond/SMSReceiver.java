@@ -22,13 +22,13 @@ public class SMSReceiver extends BroadcastReceiver {
         Set<String> senders = new HashSet<String>();
 
         for(SmsMessage message : messages) {
-            message.getOriginatingAddress();
+            senders.add(message.getOriginatingAddress());
         }
 
 
         for(String s : senders){
             System.out.println(s);
+            MainService.sendText(s, context);
         }
-        //TODO: Send list of senders somewhere else
     }
 }
