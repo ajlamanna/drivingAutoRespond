@@ -53,14 +53,12 @@ public class ActivityRecognizedService extends IntentService{
                     if( activity.getConfidence() >= 75 ) {
 
                         MainService.setActivity(1, this);
+                        MainActivity.activity("veh");
 
-                        //NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                        //builder.setContentText("Are you in a Vehicle");
-                        //builder.setSmallIcon(R.mipmap.ic_launcher);
-                        //builder.setContentTitle(getString(R.string.app_name));
-                        //NotificationManagerCompat.from(this).notify(0, builder.build());
+
                     } else {
                         MainService.setActivity(0, this);
+                        MainActivity.activity("not");
                     }
                     break;
                 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -12,6 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.os.Handler;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,6 +25,8 @@ import com.google.android.gms.location.ActivityRecognition;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public GoogleApiClient mApiClient;
+    private static TextView switchStatus;
+    private  Switch statSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,37 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS,
                     Manifest.permission.SEND_SMS},
                     0);
+        }
+
+        switchStatus = (TextView) findViewById(R.id.status);
+        statSwitch = (Switch) findViewById(R.id.switch1);
+
+        statSwitch.setChecked(false);
+        statSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b) {
+                    statSwitch.setTextOn("Enabled");
+                    statSwitch.setTextColor(Color.parseColor("#FF289520"));
+                    switchStatus.setText("Getting Driving Status...");
+                }else{
+                    statSwitch.setTextOff("Disabled");
+                    statSwitch.setTextColor(Color.parseColor("#FFFF3C44"));
+                    switchStatus.setText("Currently Disabled, Please enable before driving.");
+                }
+            }
+        });
+
+        if(statSwitch.isChecked()){
+            statSwitch.setTextOn("Enabled");
+            statSwitch.setTextColor(Color.parseColor("#FF289520"));
+            switchStatus.setText("Getting Driving Status...");
+        }
+        else{
+            statSwitch.setTextOn("Disabled");
+            statSwitch.setTextColor(Color.parseColor("#FFFF3C44"));
+            switchStatus.setText("Currently Disabled, Please enable before driving.");
         }
 
         mApiClient = new GoogleApiClient.Builder(this)
@@ -95,4 +133,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         }
     }
+
+    static Handler mHandler = new Handler();
+    public static void activity(String actName){
+        if(actName == "veh"){
+            new Thread(new Runnable() {
+                @Override
+                public void run () {
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run () {
+                            switchStatus.setText("Currently Driving. Auto Respond is Active");
+                        }
+                    });
+                }
+            }).start();
+        }
+
+        if(actName == "not"){
+            new Thread(new Runnable() {
+                @Override
+                public void run () {
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run () {
+                            switchStatus.setText("Currently not Driving. Auto Respond Disabled");
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
 }
