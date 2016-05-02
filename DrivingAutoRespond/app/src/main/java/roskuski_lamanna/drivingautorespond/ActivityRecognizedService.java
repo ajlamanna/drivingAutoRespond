@@ -52,7 +52,7 @@ public class ActivityRecognizedService extends IntentService{
                     Log.e( "ActivityRecogition", "In Vehicle: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 75 ) {
 
-                        Database.getInstance().updateVal(this, "activity", 1);
+                        MainService.setActivity(1, this);
 
                         //NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
                         //builder.setContentText("Are you in a Vehicle");
@@ -60,7 +60,7 @@ public class ActivityRecognizedService extends IntentService{
                         //builder.setContentTitle(getString(R.string.app_name));
                         //NotificationManagerCompat.from(this).notify(0, builder.build());
                     } else {
-                        Database.getInstance().updateVal(this, "activity", 0);
+                        MainService.setActivity(0, this);
                     }
                     break;
                 }
