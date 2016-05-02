@@ -87,7 +87,7 @@ public class MainService extends IntentService {
     }
 
     private boolean shouldSend(){
-        return Database.getInstance().getVal(this, "pref") == 1;
+        return Database.getInstance().getVal(this, "pref") == 0;
     }
 
 
